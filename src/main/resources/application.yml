@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: rayco-api
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/rayco-db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:admin123}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # Pode ser "create", "update", "validate" ou "none"
+      show-sql: true  # Exibe as queries no console
+    properties:
+      hibernate:
+        default_schema: rayco_schema
+      format_sql: true  # Formata as queries para melhor leitura
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    schemas: rayco_schema
+    create-schema: true
