@@ -1,0 +1,38 @@
+server:
+  port: 9081
+
+spring:
+  application:
+    name: rayco-api
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/rayco-db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:admin123}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: true
+    properties:
+      hibernate:
+        default_schema: rayco_schema
+      format_sql: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+
+keycloak:
+  url: http://localhost:8080
+  realm: rayco
+  client-id: rayco-client
+  client-secret: MJvM8K0DUox6htpPAULb6W7VYAm4Spiz
+
+  
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: full
