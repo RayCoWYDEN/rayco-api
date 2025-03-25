@@ -5,15 +5,15 @@ import lombok.Data;
 
 import java.util.Set;
 
-@Builder
 @Data
+@Builder
 public class UniversityDTO {
-
     private Long id;
-    private Double averageRank;
-    private Double latitude;
-    private Double longitude;
+    private String name;
+    private double averageRank;
+    private double latitude;
+    private double longitude;
+    private double distance;
+    private boolean privateInstitution;
     private Set<EntryTypesDTO> entryTypes;
-
-    // Adicionar construtores, getters e setters, se necessário
 }

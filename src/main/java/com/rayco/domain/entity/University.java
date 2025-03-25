@@ -10,11 +10,19 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "universities")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class University {
 
     @Id
@@ -25,14 +33,17 @@ public class University {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "average_rank")
-    private Double averageRank;
+    @Column(name = "average_rank", nullable = false)
+    private double averageRank;
 
-    @Column(name = "latitude")
-    private Double latitude;
+    @Column(name = "latitude", nullable = false)
+    private double latitude;
 
-    @Column(name = "longitude")
-    private Double longitude;
+    @Column(name = "longitude", nullable = false)
+    private double longitude;
+
+    @Column(name = "private", nullable = false)
+    private boolean privateInstitution;
 
     @ManyToMany
     @JoinTable(

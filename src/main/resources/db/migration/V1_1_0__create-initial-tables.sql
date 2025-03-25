@@ -16,7 +16,8 @@ CREATE TABLE universities (
     name VARCHAR(255) NOT NULL,
     average_rank DOUBLE PRECISION NOT NULL,
     latitude DOUBLE PRECISION NOT NULL,
-    longitude DOUBLE PRECISION NOT NULL
+    longitude DOUBLE PRECISION NOT NULL,
+    private BOOLEAN NOT NULL
 );
 
 CREATE TABLE academics_info (

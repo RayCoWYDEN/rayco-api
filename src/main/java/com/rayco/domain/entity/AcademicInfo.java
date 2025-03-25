@@ -20,12 +20,12 @@ public class AcademicInfo {
     private Long id;
 
     @OneToOne
-    @JoinColumn(name = "id_course", nullable = true)
+    @JoinColumn(name = "id_course")
     private Course course;
 
     @Column(name = "period", nullable = false)
-    private Integer period;
+    private int period;
 
-    @Column(name = "tuition_fee")
-    private Double tuitionFee;
+    @Column(name = "tuition_fee", nullable = false)
+    private double tuitionFee;
 }

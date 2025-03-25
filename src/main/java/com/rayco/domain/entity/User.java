@@ -9,9 +9,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
         @Id
@@ -22,10 +30,10 @@ public class User {
         @Column(name = "name", nullable = false)
         private String name;
 
-        @Column(name = "email")
+        @Column(name = "email", nullable = false)
         private String email;
 
         @OneToOne
-        @JoinColumn(name = "id_academic_info", nullable = true)
+        @JoinColumn(name = "id_academic_info")
         private AcademicInfo academicInfo;
 }
