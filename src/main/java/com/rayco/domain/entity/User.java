@@ -10,6 +10,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,13 +19,14 @@ import lombok.Setter;
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
         @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
-        @SequenceGenerator(sequenceName = "id_user_seq", name = "seq_generator")
+        @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_users_seq")
+        @SequenceGenerator(name = "id_users_seq", sequenceName = "id_users_seq")
         private Long id;
 
         @Column(name = "name", nullable = false)

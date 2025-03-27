@@ -8,11 +8,15 @@ import java.util.List;
 @Builder
 @Data
 public class KeycloakUserDTO {
-
-    private String username;
     private String email;
-    private String firstName;
-    private String lastName;
-    private boolean enabled;
+
+    private AttributesDTO attributes;
+
+    @Builder.Default
+    private boolean enabled = true;
+
+    @Builder.Default
+    private boolean emailVerified = true;
+
     private List<CredentialRepresentation> credentials;
 }

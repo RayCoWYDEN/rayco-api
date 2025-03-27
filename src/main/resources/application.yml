@@ -1,5 +1,5 @@
 server:
-  port: 9081
+  port: 9092
 
 spring:
   application:
@@ -24,9 +24,13 @@ spring:
 keycloak:
   url: http://localhost:8080
   realm: rayco
+  grant-type: password
   client-id: rayco-client
-  client-secret: MJvM8K0DUox6htpPAULb6W7VYAm4Spiz
-
+  client-secret: VqGnoOToAP50rxKkSi4ApPoWn0xq2HsY
+  admin:
+    credentials:
+      email: admin@gmail.com
+      password: admin
   
 
 feign:
