@@ -1,6 +1,7 @@
 package com.rayco.application.service;
 
 import com.rayco.application.client.KeycloakClient;
+import com.rayco.application.exceptions.NotFoundException;
 import com.rayco.domain.entity.User;
 import com.rayco.domain.repository.UserRepository;
 import com.rayco.presentation.dto.KeycloakUserDTO;
@@ -9,6 +10,7 @@ import com.rayco.presentation.dto.UserCreateDTO;
 import com.rayco.presentation.mapper.KeycloakUserMapper;
 import com.rayco.presentation.mapper.UserMapper;
 import com.rayco.presentation.response.TokenResponse;
+import com.rayco.presentation.response.UserLoggedResponse;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +64,10 @@ public class UserService {
     }
 
 
-    public TokenResponse login(LoginDTO dto){
+    public UserLoggedResponse login(LoginDTO dto){
+        User user = repository.findByEmail(dto.getEmail())
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
         MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", grantType);
         map.add("client_id", clientId);
@@ -80,11 +85,11 @@ public class UserService {
         ResponseEntity<TokenResponse> response = restTemplate.exchange(
                 endpoint, HttpMethod.POST, entity, TokenResponse.class);
 
-        return response.getBody();
+        return mapper.mapUserLoggedResponse(user, response.getBody());
     }
 
     @Transactional
-    public TokenResponse register(@Valid UserCreateDTO dto) {
+    public UserLoggedResponse register(@Valid UserCreateDTO dto) {
         User userToSave = mapper.mapEntityForRegister(dto);
         User createdUser = repository.save(userToSave);
         String accessToken = getAdminUserAccessToken();
@@ -93,18 +98,19 @@ public class UserService {
 
         keycloakClient.createUser(realm, accessToken, keycloakUserDTO);
 
-        return getCreatedUserToken(dto);
+        return buildUserCreatedDTO(createdUser, dto.getPassword());
     }
 
     private String getAdminUserAccessToken(){
         LoginDTO loginDTO = LoginDTO.builder().email(email).password(password).build();
-        TokenResponse tokenResponse = login(loginDTO);
+        TokenResponse tokenResponse = login(loginDTO).getToken();
         return String.format("Bearer %s",  tokenResponse.getAccessToken());
     }
 
-    private TokenResponse getCreatedUserToken(UserCreateDTO user){
-        LoginDTO loginDTO = LoginDTO.builder().email(user.getEmail()).password(user.getPassword()).build();
-        return login(loginDTO);
+    private UserLoggedResponse buildUserCreatedDTO(User user, String password){
+        LoginDTO loginDTO = LoginDTO.builder().email(user.getEmail()).password(password).build();
+        TokenResponse tokenResponse = login(loginDTO).getToken();
+        return mapper.mapUserLoggedResponse(user, tokenResponse);
     }
 
 }

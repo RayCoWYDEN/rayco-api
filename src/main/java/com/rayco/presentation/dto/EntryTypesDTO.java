@@ -6,7 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class EntryTypesDTO {
-
     private Long id;
     private String name;
 

@@ -2,6 +2,11 @@ server:
   port: 9092
 
 spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8082/realms/rayco
   application:
     name: rayco-api
 
@@ -22,16 +27,16 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
 keycloak:
-  url: http://localhost:8080
+  url: http://localhost:8082
   realm: rayco
   grant-type: password
   client-id: rayco-client
-  client-secret: VqGnoOToAP50rxKkSi4ApPoWn0xq2HsY
+  client-secret: Z81IJHYbW4pCmT0FdardiCy6MFFprx99
   admin:
     credentials:
       email: admin@gmail.com
       password: admin
-  
+
 
 feign:
   client:
@@ -40,3 +45,5 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
         loggerLevel: full
+
+

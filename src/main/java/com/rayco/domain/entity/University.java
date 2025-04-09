@@ -2,6 +2,7 @@ package com.rayco.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -48,8 +49,8 @@ public class University {
     @ManyToMany
     @JoinTable(
             name = "university_entry_type",
-            joinColumns = @JoinColumn(name = "id_entry_type"),
-            inverseJoinColumns = @JoinColumn(name = "id_university")
+            joinColumns = @JoinColumn(name = "id_university"),
+            inverseJoinColumns = @JoinColumn(name = "id_entry_type")
     )
     private Set<EntryTypes> entryTypes;
 

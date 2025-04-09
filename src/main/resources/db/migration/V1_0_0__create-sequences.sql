@@ -1,6 +1,25 @@
-CREATE SEQUENCE rayco_schema.id_academics_info_seq;
-CREATE SEQUENCE rayco_schema.id_courses_seq;
-CREATE SEQUENCE rayco_schema.id_entry_types_seq;
-CREATE SEQUENCE rayco_schema.id_universities_seq;
-CREATE SEQUENCE rayco_schema.id_users_seq;
+CREATE SEQUENCE rayco_schema.id_academics_info_seq
+START WITH 1
+INCREMENT BY 1
+NO CYCLE;
+
+CREATE SEQUENCE rayco_schema.id_courses_seq
+START WITH 1
+INCREMENT BY 1
+NO CYCLE;
+
+CREATE SEQUENCE rayco_schema.id_entry_types_seq
+START WITH 1
+INCREMENT BY 1
+NO CYCLE;
+
+CREATE SEQUENCE rayco_schema.id_universities_seq
+START WITH 1
+INCREMENT BY 1
+NO CYCLE;
+
+CREATE SEQUENCE rayco_schema.id_users_seq
+START WITH 1
+INCREMENT BY 1
+NO CYCLE;
 
