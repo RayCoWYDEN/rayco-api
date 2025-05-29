@@ -1,0 +1,24 @@
+docker exec -it keycloak /bin/bash
+cd opt/keycloak/bin/
+./kc.sh export --dir=/opt/keycloak/data/export --realm=rayco --users=realm_file
+
+Executar fora do container
+docker cp keycloak:/opt/keycloak/data/export ./export
+
+Trocar
+"policies": [
+  {
+    "name": "Default Policy",
+    "description": "A policy that grants access only for users within this realm",
+    "type": "js",
+    "logic": "POSITIVE",
+    "decisionStrategy": "AFFIRMATIVE",
+    "config": {
+      "code": "// by default, grants any permission associated with this policy\n$evaluation.grant();\n"
+    }
+  }
+]
+
+Para
+
+"policies": []

@@ -54,12 +54,14 @@ public class UserService {
     private final UserMapper mapper;
     private final KeycloakUserMapper keycloakUserMapper;
     private final KeycloakClient keycloakClient;
+    private final TokenService tokenService;
 
-    public UserService(UserRepository repository, UserMapper mapper, KeycloakUserMapper keycloakUserMapper, KeycloakClient keycloakClient) {
+    public UserService(UserRepository repository, UserMapper mapper, KeycloakUserMapper keycloakUserMapper, KeycloakClient keycloakClient, TokenService tokenService) {
         this.repository = repository;
         this.mapper = mapper;
         this.keycloakUserMapper = keycloakUserMapper;
         this.keycloakClient = keycloakClient;
+        this.tokenService = tokenService;
         this.restTemplate = new RestTemplate();
     }
 
@@ -111,6 +113,12 @@ public class UserService {
         LoginDTO loginDTO = LoginDTO.builder().email(user.getEmail()).password(password).build();
         TokenResponse tokenResponse = login(loginDTO).getToken();
         return mapper.mapUserLoggedResponse(user, tokenResponse);
+    }
+
+    public User getLoggedUser(){
+        String email = tokenService.getCurrentUserEmail();
+        return repository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
 }

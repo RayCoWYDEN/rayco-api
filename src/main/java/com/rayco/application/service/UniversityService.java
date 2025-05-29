@@ -1,6 +1,9 @@
 package com.rayco.application.service;
 
 import com.rayco.application.component.DistanceComponent;
+import com.rayco.domain.entity.FavoriteUniversity;
+import com.rayco.domain.entity.User;
+import com.rayco.domain.repository.FavoriteUniversitiesRepository;
 import com.rayco.domain.repository.UniversityRepository;
 import com.rayco.presentation.dto.GetUniversitiesParamsDTO;
 import com.rayco.presentation.dto.UniversityDTO;
@@ -13,6 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -20,6 +26,8 @@ public class UniversityService {
     private final UniversityRepository repository;
     private final UniversityMapper mapper;
     private final DistanceComponent distanceComponent;
+    private final FavoriteUniversitiesRepository favoriteUniversitiesRepository;
+    private final UserService userService;
 
     public Page<UniversityDTO> listAll(GetUniversitiesParamsDTO dto, Pageable pageable) {
         Page<University> page = repository.findAll(pageable);
@@ -28,11 +36,42 @@ public class UniversityService {
         if(dto.isNeedCalcDistance())
             buildDistances(dtos, dto.getLatitude(), dto.getLongitude());
 
+        User user = userService.getLoggedUser();
+        List<FavoriteUniversity> favoriteUniversities = favoriteUniversitiesRepository.findByUserId(user.getId());
+
+        if (!favoriteUniversities.isEmpty())
+            mapFavoriteUniversities(dtos, favoriteUniversities);
+
         return new PageImpl<>(
                 dtos,
                 pageable,
                 page.getTotalElements()
         );
+    }
+
+    public void favorite(Long id) {
+        User user = userService.getLoggedUser();
+        FavoriteUniversity favoriteUniversity = favoriteUniversitiesRepository.findByIdUserIdAndIdUniversityId(user.getId(), id);
+
+        if(Objects.nonNull(favoriteUniversity)){
+            favoriteUniversitiesRepository.delete(favoriteUniversity);
+        } else {
+            University university = University.builder().id(id).build();
+            FavoriteUniversity newFavoriteUniversity = new FavoriteUniversity(user, university);
+
+            favoriteUniversitiesRepository.save(newFavoriteUniversity);
+        }
+    }
+
+    public List<UniversityDTO> listAllFavorites(){
+        User user = userService.getLoggedUser();
+        List<University> universities = favoriteUniversitiesRepository.findByUserId(user.getId())
+                .stream()
+                .map(FavoriteUniversity::getUniversity)
+                .toList();
+        return  mapper.toListDTO(universities)
+                .stream().peek(universityDTO -> universityDTO.setFavorite(true))
+                .toList();
     }
 
     private void buildDistances(List<UniversityDTO> dtos, double latitude, double longitude){
@@ -42,7 +81,15 @@ public class UniversityService {
 
             university.setDistance(distance);
         }
-
     }
 
+    private void mapFavoriteUniversities(List<UniversityDTO> dtos, List<FavoriteUniversity> favoriteUniversities) {
+        Set<Long> favoriteUniversityIds = favoriteUniversities.stream()
+                .map(fav -> fav.getUniversity().getId())
+                .collect(Collectors.toSet());
+
+        for (UniversityDTO dto : dtos) {
+            dto.setFavorite(favoriteUniversityIds.contains(dto.getId()));
+        }
+    }
 }

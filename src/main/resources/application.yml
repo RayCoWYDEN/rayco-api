@@ -6,13 +6,13 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8082/realms/rayco
+          issuer-uri: http://localhost:8080/realms/rayco
   application:
     name: rayco-api
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/rayco-db}
-    username: ${DB_USERNAME:postgres}
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/rayco-db}
+    username: ${DB_USERNAME:admin}
     password: ${DB_PASSWORD:admin123}
     driver-class-name: org.postgresql.Driver
 
@@ -27,14 +27,14 @@ spring:
       dialect: org.hibernate.dialect.PostgreSQLDialect
 
 keycloak:
-  url: http://localhost:8082
+  url: http://localhost:8080
   realm: rayco
   grant-type: password
   client-id: rayco-client
-  client-secret: Z81IJHYbW4pCmT0FdardiCy6MFFprx99
+  client-secret: nEj0O9RaHgnXxwmuYslITMqVaIGu5dXy
   admin:
     credentials:
-      email: admin@gmail.com
+      email: admin@provider.com
       password: admin
 
 
