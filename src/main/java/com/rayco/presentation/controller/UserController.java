@@ -4,6 +4,7 @@ package com.rayco.presentation.controller;
 import com.rayco.application.service.UserService;
 import com.rayco.presentation.dto.LoginDTO;
 import com.rayco.presentation.dto.UserCreateDTO;
+import com.rayco.presentation.dto.UserInfoDTO;
 import com.rayco.presentation.response.UserLoggedResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -31,5 +32,11 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserLoggedResponse register(@RequestBody @Valid UserCreateDTO dto){
         return service.register(dto);
+    }
+
+    @PostMapping("personal-info")
+    public ResponseEntity<?> saveUserInfo(RequestBody UserInfoDTO){
+        service.saveUserInfo();
+        return ResponseEntity.ok().build();
     }
 }

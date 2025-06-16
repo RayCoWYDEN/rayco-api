@@ -95,10 +95,15 @@ public class UserService {
         User userToSave = mapper.mapEntityForRegister(dto);
         User createdUser = repository.save(userToSave);
         String accessToken = getAdminUserAccessToken();
-
         KeycloakUserDTO keycloakUserDTO = keycloakUserMapper.toKeycloakUserDTO(createdUser, dto.getPassword());
 
-        keycloakClient.createUser(realm, accessToken, keycloakUserDTO);
+        try {
+            keycloakClient.createUser(realm, accessToken, keycloakUserDTO);
+
+        } catch (RuntimeException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
 
         return buildUserCreatedDTO(createdUser, dto.getPassword());
     }
@@ -121,4 +126,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
+    public void saveUserInfo() {
+        
+    }
 }

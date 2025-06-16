@@ -25,7 +25,9 @@ CREATE TABLE academics_info (
     id_course BIGINT NOT NULL,
     period INT NOT NULL,
     tuition_fee DOUBLE PRECISION NOT NULL,
-    CONSTRAINT fk_academics_course FOREIGN KEY (id_course) REFERENCES courses (id)
+    id_university BIGINT NOT NULL,
+    CONSTRAINT fk_academics_course FOREIGN KEY (id_course) REFERENCES courses (id),
+    CONSTRAINT fk_academics_university FOREIGN KEY (id_university) REFERENCES universities (id)
 );
 
 CREATE TABLE users (
@@ -35,7 +37,6 @@ CREATE TABLE users (
     id_academic_info BIGINT,
     CONSTRAINT fk_user_academic_info FOREIGN KEY (id_academic_info) REFERENCES academics_info (id)
 );
-
 
 CREATE TABLE university_course (
     id_university BIGINT NOT NULL,
