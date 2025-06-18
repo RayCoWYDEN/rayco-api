@@ -35,7 +35,8 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     id_academic_info BIGINT,
-    CONSTRAINT fk_user_academic_info FOREIGN KEY (id_academic_info) REFERENCES academics_info (id)
+    CONSTRAINT fk_user_academic_info FOREIGN KEY (id_academic_info) REFERENCES academics_info (id),
+    CONSTRAINT unique_user_email UNIQUE (email)
 );
 
 CREATE TABLE university_course (

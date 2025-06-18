@@ -1,5 +1,6 @@
 package com.rayco.domain.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class User {
         @Column(name = "email", nullable = false)
         private String email;
 
-        @OneToOne
+        @OneToOne(cascade = CascadeType.ALL)
         @JoinColumn(name = "id_academic_info")
         private AcademicInfo academicInfo;
 }

@@ -2,6 +2,7 @@ package com.rayco.presentation.controller;
 
 import com.rayco.application.service.UniversityService;
 import com.rayco.presentation.dto.GetUniversitiesParamsDTO;
+import com.rayco.presentation.dto.UniversityAutocompleteDTO;
 import com.rayco.presentation.dto.UniversityDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,5 +44,11 @@ public class UniversityController {
     public ResponseEntity<?> markAsFavorite(@PathVariable("id") Long id){
         service.favorite(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/autocomplete")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<UniversityAutocompleteDTO>> autocomplete(){
+        return ResponseEntity.ok(service.listAutocomplete());
     }
 }

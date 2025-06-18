@@ -3,17 +3,17 @@ package com.rayco.presentation.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
 @Builder
-public class UserInfoDTO {
-    @NotNull
+public class AcademicInfoDTO {
     private Long id;
     @NotNull
-    private String name;
+    private CourseDTO course;
     @NotNull
-    private String email;
+    private int period;
     @NotNull
-    private AcademicInfoDTO academicInfo;
+    private double tuitionFee;
+    @NotNull
+    private UniversityDTO university;
 }

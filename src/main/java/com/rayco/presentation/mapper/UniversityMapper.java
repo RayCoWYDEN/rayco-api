@@ -1,10 +1,9 @@
 package com.rayco.presentation.mapper;
 
-import com.rayco.presentation.dto.UniversityDTO;
 import com.rayco.domain.entity.University;
+import com.rayco.presentation.dto.UniversityAutocompleteDTO;
+import com.rayco.presentation.dto.UniversityDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 
 import java.util.List;
 
@@ -14,4 +13,5 @@ public interface  UniversityMapper {
 
     List<UniversityDTO> toListDTO(List<University> universities);
 
+    List<UniversityAutocompleteDTO> toListAutocompleteDTO(List<University> universities);
 }

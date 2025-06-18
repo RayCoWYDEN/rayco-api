@@ -10,14 +10,28 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "academics_info")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AcademicInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequenceName = "id_academics_info_seq", name = "seq_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_academics_info_seq")
+    @SequenceGenerator(
+            name = "id_academics_info_seq",
+            sequenceName = "rayco_schema.id_academics_info_seq",
+            allocationSize = 1
+    )
     private Long id;
 
     @OneToOne

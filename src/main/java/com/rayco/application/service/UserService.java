@@ -7,6 +7,7 @@ import com.rayco.domain.repository.UserRepository;
 import com.rayco.presentation.dto.KeycloakUserDTO;
 import com.rayco.presentation.dto.LoginDTO;
 import com.rayco.presentation.dto.UserCreateDTO;
+import com.rayco.presentation.dto.UserInfoDTO;
 import com.rayco.presentation.mapper.KeycloakUserMapper;
 import com.rayco.presentation.mapper.UserMapper;
 import com.rayco.presentation.response.TokenResponse;
@@ -126,7 +127,8 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
-    public void saveUserInfo() {
-        
+    public void saveUserInfo(UserInfoDTO dto) {
+        User user = mapper.toEntity(dto);
+        repository.save(user);
     }
 }

@@ -2,12 +2,13 @@ package com.rayco.application.service;
 
 import com.rayco.application.component.DistanceComponent;
 import com.rayco.domain.entity.FavoriteUniversity;
+import com.rayco.domain.entity.University;
 import com.rayco.domain.entity.User;
 import com.rayco.domain.repository.FavoriteUniversitiesRepository;
 import com.rayco.domain.repository.UniversityRepository;
 import com.rayco.presentation.dto.GetUniversitiesParamsDTO;
+import com.rayco.presentation.dto.UniversityAutocompleteDTO;
 import com.rayco.presentation.dto.UniversityDTO;
-import com.rayco.domain.entity.University;
 import com.rayco.presentation.mapper.UniversityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -72,6 +73,11 @@ public class UniversityService {
         return  mapper.toListDTO(universities)
                 .stream().peek(universityDTO -> universityDTO.setFavorite(true))
                 .toList();
+    }
+
+    public List<UniversityAutocompleteDTO> listAutocomplete(){
+        List<University> universities = repository.findAll();
+        return mapper.toListAutocompleteDTO(universities);
     }
 
     private void buildDistances(List<UniversityDTO> dtos, double latitude, double longitude){

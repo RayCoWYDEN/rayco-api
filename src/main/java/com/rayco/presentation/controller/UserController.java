@@ -35,8 +35,9 @@ public class UserController {
     }
 
     @PostMapping("personal-info")
-    public ResponseEntity<?> saveUserInfo(RequestBody UserInfoDTO){
-        service.saveUserInfo();
+    public ResponseEntity<?> saveUserInfo(@RequestBody @Valid UserInfoDTO dto){
+        service.saveUserInfo(dto);
         return ResponseEntity.ok().build();
     }
+
 }
